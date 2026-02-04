@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Delete Project</title>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { font-family: 'Segoe UI', Tahoma, Arial; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 20px; }
+        .card { background: #fff; border-radius: 10px; padding: 40px; max-width: 500px; width: 100%; box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2); text-align: center; }
+        .icon { font-size: 3.5em; margin-bottom: 20px; }
+        h1 { font-size: 1.6rem; color: #333; margin-bottom: 15px; }
+        p { color: #666; margin-bottom: 12px; line-height: 1.6; }
+        .warning { background: #fff3cd; border-left: 4px solid #ffc107; padding: 15px; border-radius: 4px; margin: 20px 0; text-align: left; color: #856404; }
+        .actions { display: flex; gap: 15px; margin-top: 30px; }
+        .btn { flex: 1; padding: 12px 24px; border-radius: 6px; border: none; cursor: pointer; font-weight: 600; font-size: 1em; transition: all 0.3s ease; }
+        .btn-cancel { background: #6c757d; color: white; }
+        .btn-cancel:hover { background: #5a6268; }
+        .btn-delete { background: #dc3545; color: white; }
+        .btn-delete:hover { background: #c82333; }
+        .success { display: none; background: #d4edda; color: #155724; padding: 15px; border-radius: 4px; margin-bottom: 20px; }
+    </style>
+</head>
+<body>
+    <div class="card">
+        <div class="icon">⚠️</div>
+        <h1>Delete Project</h1>
+        <p>Are you sure you want to delete this project?</p>
+        <p id="projectInfo" style="font-size: 0.95em; color: #999;"></p>
+       
+        <div class="warning">
+            <strong>Warning:</strong> This action cannot be undone. All associated data will be permanently deleted.
+        </div>
+       
+        <div class="success" id="successMessage">
+            ✓ Project deleted successfully! Redirecting...
+        </div>
+       
+        <div class="actions">
+            <button class="btn btn-cancel" onclick="goBack()">Cancel</button>
+            <button class="btn btn-delete" id="deleteBtn" onclick="confirmDelete()">Delete Project</button>
+        </div>
+    </div>
+ 
+    <script>
+        // Get project ID from URL parameter
+        const urlParams = new URLSearchParams(window.location.search);
+        const projectId = urlParams.get('id');
+ 
+        document.addEventListener('DOMContentLoaded', function() {
+            if (projectId) {
+                document.getElementById('projectInfo').textContent = `Project ID: ${projectId}`;
+            }
+        });
+ 
+        function confirmDelete() {
+            const deleteBtn = document.getElementById('deleteBtn');
+            deleteBtn.disabled = true;
+            deleteBtn.textContent = 'Deleting...';
+ 
+            fetch(`/projects/delete/${projectId}`, {
+                method: 'DELETE',
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            })
+            .then(response => {
+                if (response.ok) {
+                    document.getElementById('successMessage').style.display = 'block';
+                    setTimeout(() => {
+                        window.location.href = '/projects';
+                    }, 1500);
+                } else {
+                    alert('Failed to delete project. Please try again.');
+                    deleteBtn.disabled = false;
+                    deleteBtn.textContent = 'Delete Project';
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('Error deleting project. Check console for details.');
+                deleteBtn.disabled = false;
+                deleteBtn.textContent = 'Delete Project';
+            });
+        }
+ 
+        function goBack() {
+            window.location.href = '/projects';
+        }
+    </script>
+</body>
+</html>
+ 
+ 

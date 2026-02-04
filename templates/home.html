@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Project Manager</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+       
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+       
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            padding: 30px;
+        }
+       
+        h1 {
+            color: #333;
+            margin-bottom: 10px;
+            font-size: 2em;
+        }
+       
+        .header-info {
+            color: #666;
+            margin-bottom: 30px;
+            font-size: 0.95em;
+        }
+       
+        .create-btn {
+            display: inline-block;
+            background: #667eea;
+            color: white;
+            padding: 12px 24px;
+            border-radius: 5px;
+            text-decoration: none;
+            margin-bottom: 20px;
+            font-weight: 600;
+            transition: background 0.3s ease;
+        }
+       
+        .create-btn:hover {
+            background: #5568d3;
+        }
+       
+        .table-wrapper {
+            overflow-x: auto;
+        }
+       
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+       
+        thead {
+            background: #f5f5f5;
+            border-bottom: 2px solid #667eea;
+        }
+       
+        th {
+            padding: 15px;
+            text-align: left;
+            font-weight: 600;
+            color: #333;
+            font-size: 0.95em;
+        }
+       
+        td {
+            padding: 15px;
+            border-bottom: 1px solid #eee;
+            color: #555;
+        }
+       
+        tr:hover {
+            background: #f9f9f9;
+        }
+       
+        .project-id {
+            color: #667eea;
+            font-weight: 600;
+        }
+       
+        .project-name {
+            font-weight: 600;
+            color: #333;
+        }
+       
+        .project-description {
+            color: #777;
+            max-width: 300px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+       
+        .duration {
+            background: #e8f4f8;
+            color: #0277bd;
+            padding: 5px 10px;
+            border-radius: 4px;
+            font-weight: 600;
+            display: inline-block;
+        }
+       
+        .actions {
+            display: flex;
+            gap: 10px;
+        }
+       
+        .edit-btn, .delete-btn {
+            padding: 8px 16px;
+            border: none;
+            border-radius: 4px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 0.9em;
+        }
+       
+        .edit-btn {
+            background: #4caf50;
+            color: white;
+        }
+       
+        .edit-btn:hover {
+            background: #45a049;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(76, 175, 80, 0.3);
+        }
+       
+        .delete-btn {
+            background: #f44336;
+            color: white;
+        }
+       
+        .delete-btn:hover {
+            background: #da190b;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(244, 67, 54, 0.3);
+        }
+       
+        .empty-state {
+            text-align: center;
+            padding: 60px 20px;
+            color: #999;
+        }
+       
+        .empty-state-icon {
+            font-size: 3em;
+            margin-bottom: 20px;
+        }
+       
+        .empty-state-text {
+            font-size: 1.2em;
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>📋 Project Manager</h1>
+        <p class="header-info">Manage all your projects in one place</p>
+       
+        <a href="/projects/create" class="create-btn">+ Create New Project</a>
+       
+        {% if project %}
+        <div class="table-wrapper">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Project ID</th>
+                        <th>Project Name</th>
+                        <th>Description</th>
+                        <th>Budget</th>
+                        <th>Duration </th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for proj in project %}
+                    <tr>
+                        <td><span class="project-id">#{{ proj.id }}</span></td>
+                        <td><a href="/projects/{{ proj.id }}/tasks" style="text-decoration: none; color: #333; cursor: pointer;"><span class="project-name">{{ proj.name }}</span></a></td>
+                        <td><span class="project-description">{{ proj.description }}</span></td>
+                        <td><span class="project-budget">{{ proj.budget }}</span></td>
+                        <td><span clss="project-duration">{{proj.duration}}</span></td>
+                        <td>
+                            <div class="actions">
+                                <a href="/projects/edit/{{ proj.id }}" class="edit-btn">Edit</a>
+                                <button class="delete-btn" onclick="deleteProject({{ proj.id }}, '{{ proj.name }}')">Delete</button>
+                            </div>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        {% else %}
+        <div class="empty-state">
+            <div class="empty-state-icon">📦</div>
+            <div class="empty-state-text">No projects found</div>
+            <p>Create your first project to get started!</p>
+        </div>
+        {% endif %}
+    </div>
+   
+    <script>
+        function deleteProject(projectId, projectName) {
+            const confirmDelete = confirm(`Are you sure you want to delete "${projectName}"? This action cannot be undone.`);
+           
+            if (confirmDelete) {
+                // Send DELETE request to backend
+                fetch(`/projects/delete/${projectId}`, {
+                    method: 'DELETE',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                })
+                .then(response => {
+                    if (response.ok) {
+                        alert('Project deleted successfully!');
+                        location.reload();
+                    } else {
+                        alert('Failed to delete project. Please try again.');
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert('Error deleting project.');
+                });
+            }
+        }
+    </script>
+</body>
+</html>
+ 

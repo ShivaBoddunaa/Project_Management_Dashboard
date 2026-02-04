@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create New Project</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+       
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+       
+        .container {
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3);
+            padding: 40px;
+            width: 100%;
+            max-width: 500px;
+        }
+       
+        h1 {
+            color: #333;
+            margin-bottom: 10px;
+            font-size: 1.8em;
+        }
+       
+        .form-subtitle {
+            color: #777;
+            margin-bottom: 30px;
+            font-size: 0.95em;
+        }
+       
+        .form-group {
+            margin-bottom: 20px;
+        }
+       
+        label {
+            display: block;
+            margin-bottom: 8px;
+            color: #333;
+            font-weight: 600;
+            font-size: 0.95em;
+        }
+       
+        .required {
+            color: #f44336;
+        }
+       
+        input[type="text"],
+        input[type="number"],
+        textarea {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e0e0e0;
+            border-radius: 6px;
+            font-size: 1em;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            transition: all 0.3s ease;
+        }
+       
+        input[type="text"]:focus,
+        input[type="number"]:focus,
+        textarea:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+       
+        textarea {
+            resize: vertical;
+            min-height: 100px;
+        }
+       
+        .input-hint {
+            font-size: 0.85em;
+            color: #999;
+            margin-top: 5px;
+        }
+       
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+        }
+       
+        .form-actions {
+            display: flex;
+            gap: 15px;
+            margin-top: 30px;
+        }
+       
+        button {
+            flex: 1;
+            padding: 12px 24px;
+            border: none;
+            border-radius: 6px;
+            font-weight: 600;
+            font-size: 1em;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+       
+        .submit-btn {
+            background: #667eea;
+            color: white;
+        }
+       
+        .submit-btn:hover {
+            background: #5568d3;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
+        }
+       
+        .submit-btn:active {
+            transform: translateY(0);
+        }
+       
+        .cancel-btn {
+            background: #f0f0f0;
+            color: #333;
+            border: 2px solid #e0e0e0;
+        }
+       
+        .cancel-btn:hover {
+            background: #e0e0e0;
+            transform: translateY(-2px);
+        }
+       
+        .cancel-btn:active {
+            transform: translateY(0);
+        }
+       
+        .form-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+       
+        .form-icon {
+            font-size: 2.5em;
+            margin-right: 15px;
+        }
+       
+        .form-header-text h1 {
+            margin-bottom: 5px;
+        }
+       
+        .error-message {
+            color: #f44336;
+            font-size: 0.85em;
+            margin-top: 5px;
+            display: none;
+        }
+       
+        .form-group.error input,
+        .form-group.error textarea {
+            border-color: #f44336;
+        }
+       
+        @media (max-width: 600px) {
+            .container {
+                padding: 25px;
+            }
+           
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+           
+            .form-header {
+                flex-direction: column;
+                text-align: center;
+            }
+           
+            .form-icon {
+                margin-right: 0;
+                margin-bottom: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="form-header">
+            <div class="form-icon">📝</div>
+            <div class="form-header-text">
+                <h1>Create New Project</h1>
+                <p class="form-subtitle">Fill in the details below to create a new project</p>
+            </div>
+        </div>
+       
+        <form id="projectForm" method="POST" action="/projects/create">
+            <!-- Project ID -->
+            <div class="form-group">
+                <label for="projectId">Project ID <span class="required">*</span></label>
+                <input
+                    type="text"
+                    id="projectId"
+                    name="project_id"
+                    placeholder="e.g., PROJ-001"
+                    required
+                >
+                <div class="input-hint">Unique identifier for the project</div>
+            </div>
+           
+            <!-- Project Name -->
+            <div class="form-group">
+                <label for="projectName">Project Name <span class="required">*</span></label>
+                <input
+                    type="text"
+                    id="projectName"
+                    name="project_name"
+                    placeholder="e.g., Mobile App Redesign"
+                    required
+                >
+                <div class="input-hint">Enter a descriptive project name</div>
+            </div>
+           
+            <!-- Description -->
+            <div class="form-group">
+                <label for="description">Description <span class="required">*</span></label>
+                <textarea
+                    id="description"
+                    name="description"
+                    placeholder="Describe your project in detail..."
+                    required
+                ></textarea>
+                <div class="input-hint">Provide a detailed description of the project</div>
+            </div>
+           
+            <!-- Budget and Duration Row -->
+            <div class="form-row">
+                <!-- Budget -->
+                <div class="form-group">
+                    <label for="budget">Budget <span class="required">*</span></label>
+                    <input
+                        type="number"
+                        id="budget"
+                        name="budget"
+                        placeholder="e.g., 50000"
+                        step="0.01"
+                        min="0"
+                        required
+                    >
+                    <div class="input-hint">Budget amount</div>
+                </div>
+               
+                <!-- Duration -->
+                <div class="form-group">
+                    <label for="duration">Duration (Days) <span class="required">*</span></label>
+                    <input
+                        type="number"
+                        id="duration"
+                        name="duration"
+                        placeholder="e.g., 30"
+                        min="1"
+                        required
+                    >
+                    <div class="input-hint">Number of days</div>
+                </div>
+            </div>
+           
+            <!-- Form Actions -->
+            <div class="form-actions">
+                <button type="button" class="cancel-btn" onclick="goBack()">Cancel</button>
+                <button type="submit" class="submit-btn">Create Project</button>
+            </div>
+        </form>
+    </div>
+   
+    <script>
+        function goBack() {
+            window.location.href = '/projects';
+        }
+    </script>
+</body>
+</html>
+ 
+ 
