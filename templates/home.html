@@ -12,162 +12,345 @@
         }
        
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
+            background: linear-gradient(135deg, #0f172a 0%, #1e293b 25%, #0f766e 50%, #1e293b 75%, #0f172a 100%);
             min-height: 100vh;
-            padding: 20px;
+            padding: 32px 24px;
+            position: relative;
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: radial-gradient(ellipse at 20% 50%, rgba(5, 150, 105, 0.08) 0%, transparent 50%),
+                        radial-gradient(ellipse at 80% 80%, rgba(59, 130, 246, 0.08) 0%, transparent 50%);
+            pointer-events: none;
+            z-index: -1;
         }
        
         .container {
-            max-width: 1200px;
+            max-width: 1400px;
             margin: 0 auto;
-            background: white;
-            border-radius: 10px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
-            padding: 30px;
+            position: relative;
+            z-index: 1;
         }
        
         h1 {
-            color: #333;
-            margin-bottom: 10px;
-            font-size: 2em;
+            color: #f8fafc;
+            margin-bottom: 8px;
+            font-size: 32px;
+            font-weight: 800;
+            letter-spacing: -0.8px;
+            background: linear-gradient(135deg, #e0f2fe 0%, #ccfbf1 50%, #dbeafe 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
         }
        
         .header-info {
-            color: #666;
-            margin-bottom: 30px;
-            font-size: 0.95em;
+            color: #cbd5e1;
+            margin-bottom: 40px;
+            font-size: 15px;
+            font-weight: 400;
         }
        
         .create-btn {
             display: inline-block;
-            background: #667eea;
+            background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
             color: white;
-            padding: 12px 24px;
-            border-radius: 5px;
+            padding: 12px 28px;
+            border-radius: 10px;
             text-decoration: none;
-            margin-bottom: 20px;
-            font-weight: 600;
-            transition: background 0.3s ease;
+            margin-bottom: 40px;
+            font-weight: 700;
+            font-size: 14px;
+            transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+            border: none;
+            cursor: pointer;
+            box-shadow: 0 10px 25px rgba(59, 130, 246, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .create-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+            transition: left 0.5s;
+        }
+
+        .create-btn:hover::before {
+            left: 100%;
         }
        
         .create-btn:hover {
-            background: #5568d3;
+            transform: translateY(-3px);
+            box-shadow: 0 20px 40px rgba(59, 130, 246, 0.4);
         }
        
-        .table-wrapper {
-            overflow-x: auto;
+        .projects-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 28px;
+            margin-top: 24px;
+        }
+
+        @media (max-width: 1024px) {
+            .projects-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 24px;
+            }
+        }
+
+        @media (max-width: 640px) {
+            .projects-grid {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
         }
        
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-top: 20px;
-        }
-       
-        thead {
-            background: #f5f5f5;
-            border-bottom: 2px solid #667eea;
-        }
-       
-        th {
-            padding: 15px;
-            text-align: left;
-            font-weight: 600;
-            color: #333;
-            font-size: 0.95em;
-        }
-       
-        td {
-            padding: 15px;
-            border-bottom: 1px solid #eee;
-            color: #555;
-        }
-       
-        tr:hover {
-            background: #f9f9f9;
-        }
-       
-        .project-id {
-            color: #667eea;
-            font-weight: 600;
-        }
-       
-        .project-name {
-            font-weight: 600;
-            color: #333;
-        }
-       
-        .project-description {
-            color: #777;
-            max-width: 300px;
+        .project-card {
+            background: white;
+            border-radius: 16px;
             overflow: hidden;
-            text-overflow: ellipsis;
-            white-space: nowrap;
-        }
-       
-        .duration {
-            background: #e8f4f8;
-            color: #0277bd;
-            padding: 5px 10px;
-            border-radius: 4px;
-            font-weight: 600;
-            display: inline-block;
-        }
-       
-        .actions {
             display: flex;
-            gap: 10px;
-        }
-       
-        .edit-btn, .delete-btn {
-            padding: 8px 16px;
-            border: none;
-            border-radius: 4px;
-            font-weight: 600;
+            flex-direction: column;
+            transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
             cursor: pointer;
-            transition: all 0.3s ease;
-            text-decoration: none;
+            position: relative;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1), 0 8px 16px rgba(0, 0, 0, 0.08);
+            border: 1px solid rgba(255, 255, 255, 0.95);
+        }
+
+        .project-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: var(--card-gradient, linear-gradient(90deg, #3b82f6, #06b6d4));
+            z-index: 2;
+        }
+
+        .project-card:nth-child(3n+1)::before {
+            background: linear-gradient(90deg, #3b82f6, #1d4ed8);
+        }
+
+        .project-card:nth-child(3n+2)::before {
+            background: linear-gradient(90deg, #059669, #047857);
+        }
+
+        .project-card:nth-child(3n)::before {
+            background: linear-gradient(90deg, #f59e0b, #d97706);
+        }
+
+        .project-card:hover {
+            transform: translateY(-8px) scale(1.02);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12), 
+                        0 20px 40px rgba(0, 0, 0, 0.15),
+                        0 0 30px rgba(59, 130, 246, 0.15);
+        }
+
+        .project-card:nth-child(3n+2):hover {
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12), 
+                        0 20px 40px rgba(0, 0, 0, 0.15),
+                        0 0 30px rgba(5, 150, 105, 0.15);
+        }
+
+        .project-card:nth-child(3n):hover {
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12), 
+                        0 20px 40px rgba(0, 0, 0, 0.15),
+                        0 0 30px rgba(245, 158, 11, 0.15);
+        }
+
+        .project-card-header {
+            padding: 24px;
+            background: linear-gradient(135deg, #f8f9fa 0%, #f0f4f8 100%);
+            border-bottom: 1px solid #e5e7eb;
+            flex-grow: 1;
+        }
+
+        .project-card:nth-child(3n+1) .project-card-header {
+            background: linear-gradient(135deg, #dbeafe 0%, #bfdbfe 100%);
+        }
+
+        .project-card:nth-child(3n+2) .project-card-header {
+            background: linear-gradient(135deg, #ccfbf1 0%, #a7f3d0 100%);
+        }
+
+        .project-card:nth-child(3n) .project-card-header {
+            background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
+        }
+
+        .project-card-title-section {
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            gap: 12px;
+            margin-bottom: 12px;
+        }
+
+        .project-name {
+            font-size: 18px;
+            font-weight: 800;
+            color: #0f172a;
+            word-break: break-word;
+            line-height: 1.3;
+            flex: 1;
+            letter-spacing: -0.3px;
+        }
+
+        .project-id {
             display: inline-block;
-            font-size: 0.9em;
+            background: rgba(255, 255, 255, 0.6);
+            color: #0f172a;
+            font-size: 11px;
+            font-weight: 700;
+            padding: 6px 12px;
+            border-radius: 20px;
+            white-space: nowrap;
+            flex-shrink: 0;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.8);
         }
-       
+
+        .project-description {
+            color: #374151;
+            font-size: 13px;
+            line-height: 1.6;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+            font-weight: 500;
+        }
+
+        .project-stats {
+            display: flex;
+            gap: 12px;
+            padding: 20px 24px;
+            background: #f9fafb;
+            border-bottom: 1px solid #e5e7eb;
+        }
+
+        .stat-item {
+            flex: 1;
+            background: white;
+            padding: 12px 14px;
+            border-radius: 10px;
+            border: 1px solid #e5e7eb;
+            transition: all 0.3s ease;
+        }
+
+        .project-card:nth-child(3n+1) .stat-item {
+            background: linear-gradient(135deg, rgba(59, 130, 246, 0.05), rgba(30, 58, 138, 0.05));
+            border-color: rgba(59, 130, 246, 0.2);
+        }
+
+        .project-card:nth-child(3n+2) .stat-item {
+            background: linear-gradient(135deg, rgba(5, 150, 105, 0.05), rgba(4, 120, 87, 0.05));
+            border-color: rgba(5, 150, 105, 0.2);
+        }
+
+        .project-card:nth-child(3n) .stat-item {
+            background: linear-gradient(135deg, rgba(245, 158, 11, 0.05), rgba(217, 119, 6, 0.05));
+            border-color: rgba(245, 158, 11, 0.2);
+        }
+
+        .stat-label {
+            font-size: 10px;
+            font-weight: 700;
+            color: #6b7280;
+            text-transform: uppercase;
+            letter-spacing: 0.8px;
+            margin-bottom: 6px;
+        }
+
+        .stat-value {
+            font-size: 15px;
+            font-weight: 800;
+            color: #0f172a;
+            word-break: break-word;
+            letter-spacing: -0.2px;
+        }
+
+        .project-actions {
+            display: flex;
+            gap: 12px;
+            padding: 20px 24px;
+            background: white;
+        }
+
+        .edit-btn, .delete-btn {
+            flex: 1;
+            padding: 12px 16px;
+            border: none;
+            border-radius: 10px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 13px;
+            position: relative;
+            overflow: hidden;
+        }
+
         .edit-btn {
-            background: #4caf50;
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
             color: white;
+            box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
         }
-       
+
         .edit-btn:hover {
-            background: #45a049;
             transform: translateY(-2px);
-            box-shadow: 0 4px 8px rgba(76, 175, 80, 0.3);
+            box-shadow: 0 8px 20px rgba(16, 185, 129, 0.4);
         }
-       
+
         .delete-btn {
-            background: #f44336;
+            background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
             color: white;
+            box-shadow: 0 4px 12px rgba(239, 68, 68, 0.3);
         }
-       
+
         .delete-btn:hover {
-            background: #da190b;
             transform: translateY(-2px);
-            box-shadow: 0 4px 8px rgba(244, 67, 54, 0.3);
+            box-shadow: 0 8px 20px rgba(239, 68, 68, 0.4);
         }
-       
+
         .empty-state {
             text-align: center;
-            padding: 60px 20px;
-            color: #999;
+            padding: 100px 20px;
+            color: #cbd5e1;
         }
-       
+
         .empty-state-icon {
-            font-size: 3em;
+            font-size: 60px;
             margin-bottom: 20px;
         }
-       
+
         .empty-state-text {
-            font-size: 1.2em;
-            margin-bottom: 20px;
+            font-size: 20px;
+            margin-bottom: 12px;
+            color: #f1f5f9;
+            font-weight: 700;
+        }
+
+        .empty-state p {
+            font-size: 15px;
+            margin-bottom: 28px;
+            color: #cbd5e1;
         }
     </style>
 </head>
@@ -179,36 +362,36 @@
         <a href="/projects/create" class="create-btn">+ Create New Project</a>
        
         {% if project %}
-        <div class="table-wrapper">
-            <table>
-                <thead>
-                    <tr>
-                        <th>Project ID</th>
-                        <th>Project Name</th>
-                        <th>Description</th>
-                        <th>Budget</th>
-                        <th>Duration </th>
-                        <th>Actions</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for proj in project %}
-                    <tr>
-                        <td><span class="project-id">#{{ proj.id }}</span></td>
-                        <td><a href="/projects/{{ proj.id }}/tasks" style="text-decoration: none; color: #333; cursor: pointer;"><span class="project-name">{{ proj.name }}</span></a></td>
-                        <td><span class="project-description">{{ proj.description }}</span></td>
-                        <td><span class="project-budget">{{ proj.budget }}</span></td>
-                        <td><span clss="project-duration">{{proj.duration}}</span></td>
-                        <td>
-                            <div class="actions">
-                                <a href="/projects/edit/{{ proj.id }}" class="edit-btn">Edit</a>
-                                <button class="delete-btn" onclick="deleteProject({{ proj.id }}, '{{ proj.name }}')">Delete</button>
-                            </div>
-                        </td>
-                    </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
+        <div class="projects-grid">
+            {% for proj in project %}
+            <div class="project-card">
+                <div class="project-card-header">
+                    <div class="project-card-title-section">
+                        <div>
+                            <a href="/projects/{{ proj.id }}/tasks" style="text-decoration: none; color: inherit; cursor: pointer;">
+                                <div class="project-name">{{ proj.name }}</div>
+                            </a>
+                        </div>
+                        <span class="project-id">#{{ proj.id }}</span>
+                    </div>
+                    <div class="project-description">{{ proj.description }}</div>
+                </div>
+                <div class="project-stats">
+                    <div class="stat-item">
+                        <div class="stat-label">Budget</div>
+                        <div class="stat-value">{{ proj.budget }}</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-label">Duration</div>
+                        <div class="stat-value">{{ proj.duration }}</div>
+                    </div>
+                </div>
+                <div class="project-actions">
+                    <a href="/projects/edit/{{ proj.id }}" class="edit-btn">Edit</a>
+                    <button class="delete-btn" onclick="deleteProject({{ proj.id }}, '{{ proj.name }}')">Delete</button>
+                </div>
+            </div>
+            {% endfor %}
         </div>
         {% else %}
         <div class="empty-state">
@@ -218,6 +401,36 @@
         </div>
         {% endif %}
     </div>
+   
+    <script>
+        function deleteProject(projectId, projectName) {
+            const confirmDelete = confirm(`Are you sure you want to delete "${projectName}"? This action cannot be undone.`);
+           
+            if (confirmDelete) {
+                // Send DELETE request to backend
+                fetch(`/projects/delete/${projectId}`, {
+                    method: 'DELETE',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                })
+                .then(response => {
+                    if (response.ok) {
+                        alert('Project deleted successfully!');
+                        location.reload();
+                    } else {
+                        alert('Failed to delete project. Please try again.');
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert('Error deleting project.');
+                });
+            }
+        }
+    </script>
+</body>
+</html>
    
     <script>
         function deleteProject(projectId, projectName) {
